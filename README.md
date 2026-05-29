@@ -100,11 +100,11 @@ https://fraud-shield-ai-six.vercel.app/
 
 ## 👥 Team Details
 Developed with 💙 for the digital safety community:
-
-* **Abhilash Perne** — Project Lead & Primary Developer
-* **Hansraj**—Frontend Developer 
-* **Abhinav Varayil**—Bankend Security
-* **Gokul Ram S**—Developer
+* **Team Name :- Tech Kings**
+* **Abhilash (4SN24CS002)** — Project Lead & Primary Developer
+* **Hansraj (4SN24AD016)**—Frontend Developer 
+* **Abhinav Varayil (4SN24CS003)**—Bankend Security
+* **Gokul Ram S (4SN24CS033)**—Developer
 ---
 
 ## 📜 License
