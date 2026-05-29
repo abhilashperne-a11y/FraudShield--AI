@@ -88,12 +88,12 @@ Start the lightweight Python server to serve the frontend and handle proxy reque
 ```bash
 python server.py
 ```
-By default, the server runs on `http://localhost:8000`.
+By default, the server runs on `https://fraud-shield-ai-six.vercel.app/`.
 
 ### 4. Open the Web App
 Open your favorite web browser and navigate to:
 ```url
-http://localhost:8000
+https://fraud-shield-ai-six.vercel.app/
 ```
 
 ---
@@ -102,9 +102,9 @@ http://localhost:8000
 Developed with 💙 for the digital safety community:
 
 * **Abhilash Perne** — Project Lead & Primary Developer
-* *Your Team Member 2 (Optional - Edit this to add details)*
-* *Your Team Member 3 (Optional - Edit this to add details)*
-
+* **Hansraj**—Frontend Developer 
+* **Abhinav Varayil**—Bankend Security
+* **Gokul Ram S**—Developer
 ---
 
 ## 📜 License
