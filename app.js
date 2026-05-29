@@ -792,41 +792,47 @@ function initTransactionAnalyzer() {
                 reasons.push("❌ **Blacklisted Scammer Account**: This UPI address matches a globally reported scam signature!");
             }
 
-            // Rule 2: Unknown recipient
+            // Rule 2: Unknown recipient vs Trusted history
             if (isNew) {
                 score += 30;
                 reasons.push("🚨 **New Recipient**: This account has no matching historical records on your device.");
+
+                // Rule 3: Single payment limits check (Dynamic state from Settings)
+                if (amount > AppState.settings.spendingLimit) {
+                    score += 40;
+                    reasons.push(`⚠️ **Exceeds Safe Budget**: Amount exceeds your self-configured spending shield threshold (₹${AppState.settings.spendingLimit.toLocaleString('en-IN')}).`);
+                } else if (amount > 10000) {
+                    score += 25;
+                    reasons.push(`⚠️ **Large Transfer Amount**: Transfer exceeding ₹10,000 flags mandatory visual review.`);
+                } else {
+                    reasons.push("✅ **Secure budget size**: Transaction size is within standard daily safe parameters.");
+                }
+
+                // Rule 4: Midnight anomalous timing profile (Dynamic secure hours)
+                const hour = parseInt(time.split(":")[0]) || 12;
+                const startHour = parseInt(AppState.settings.secureStart.split(":")[0]) || 8;
+                const endHour = parseInt(AppState.settings.secureEnd.split(":")[0]) || 22;
+
+                if (hour < startHour || hour > endHour) {
+                    score += 25;
+                    reasons.push(`⚠️ **Anomalous Timing Profile**: Late night transfers fall outside your standard active hour settings (${AppState.settings.secureStart} - ${AppState.settings.secureEnd}).`);
+                }
             } else {
                 score += 5;
                 reasons.push("✅ **Trusted history**: You have successfully transferred money here before.");
-            }
-
-            // Rule 3: Single payment limits check (Dynamic state from Settings)
-            if (amount > AppState.settings.spendingLimit) {
-                score += 40;
-                reasons.push(`⚠️ **Exceeds Safe Budget**: Amount exceeds your self-configured spending shield threshold (₹${AppState.settings.spendingLimit.toLocaleString('en-IN')}).`);
-            } else if (amount > 10000) {
-                score += 25;
-                reasons.push(`⚠️ **Large Transfer Amount**: Transfer exceeding ₹10,000 flags mandatory visual review.`);
-            } else {
-                reasons.push("✅ **Secure budget size**: Transaction size is within standard daily safe parameters.");
-            }
-
-            // Rule 4: Midnight anomalous timing profile (Dynamic secure hours)
-            const hour = parseInt(time.split(":")[0]) || 12;
-            const startHour = parseInt(AppState.settings.secureStart.split(":")[0]) || 8;
-            const endHour = parseInt(AppState.settings.secureEnd.split(":")[0]) || 22;
-
-            if (hour < startHour || hour > endHour) {
-                score += 25;
-                reasons.push(`⚠️ **Anomalous Timing Profile**: Late night transfers fall outside your standard active hour settings (${AppState.settings.secureStart} - ${AppState.settings.secureEnd}).`);
+                reasons.push("✅ **Bypassed timing & budget shields**: Recipient is verified in your trusted list.");
             }
 
             // Rule 5: Suspicious keywords checks
             const lowerUpi = upiId.toLowerCase();
             if (lowerUpi.includes("lottery") || lowerUpi.includes("win") || lowerUpi.includes("prize") || lowerUpi.includes("reward") || lowerUpi.includes("gift")) {
-                score += 35;
-                reasons.push("❌ **Lexical Fraud Indicators**: Recipient address contains keyword traps (lotto/win/prize).");
+                if (isNew) {
+                    score += 35;
+                    reasons.push("❌ **Lexical Fraud Indicators**: Recipient address contains keyword traps (lotto/win/prize).");
+                } else {
+                    score += 10;
+                    reasons.push("⚠️ **Lexical Caution**: Trusted name contains lottery/prize keywords; exercise standard care.");
+                }
             }
 
             // Cap score
@@ -1322,6 +1328,40 @@ function simulateBehaviorVerdict(score, verdictText, checklist) {
         return `<li class="${itemClass}">${item}</li>`;
     }).join("");
 }
+
+// --- GLOBAL QUIZ QUESTIONS ---
+const QuizQuestions = [
+    {
+        q: "You receive an SMS saying your electricity will be disconnected tonight unless you call a mobile number. What should you do?",
+        options: [
+            "Call the number immediately and pay to avoid power cut",
+            "Ignore the SMS and check your official electricity bill portal or utility office",
+            "Download the remote screen-sharing app they request to verify your account"
+        ],
+        correct: 1,
+        a: "Utility companies never send SMS warnings with personal mobile numbers or ask you to install third-party screen sharing apps like AnyDesk."
+    },
+    {
+        q: "A caller claims to be from your bank and asks for a 6-digit OTP sent to your phone to 'secure' your blocked account. Should you share it?",
+        options: [
+            "Yes, OTP is required to unlock accounts",
+            "No, never share OTPs, PINs, or passwords with anyone, including bank staff",
+            "Only share it if they know your correct home address and full name"
+        ],
+        correct: 1,
+        a: "Banks never ask for OTPs, PINs, or passwords. Sharing an OTP gives scammers full authorization to transfer your money."
+    },
+    {
+        q: "You scan a UPI QR code sent by a buyer to 'receive' payment for an item you are selling. You are asked to enter your UPI PIN. What happens next?",
+        options: [
+            "Money will be deposited into your bank account",
+            "Money will be deducted from your bank account",
+            "The transaction will register your contact details as safe"
+        ],
+        correct: 1,
+        a: "UPI PIN is ONLY required to send or deduct money, NEVER to receive money. If you enter your PIN, money will be immediately stolen from your account."
+    }
+];
 
 // --- MODULE 6: FRAUD ACADEMY & CAROUSEL ---
 let currentSlide = 0;
