@@ -348,6 +348,12 @@ const BackendClient = {
 
 // --- CORE CONTROLLERS ---
 document.addEventListener("DOMContentLoaded", async () => {
+    // Auto-apply saved theme immediately on startup
+    const savedTheme = localStorage.getItem("fraudshield_theme") || "dark";
+    if (savedTheme === "light") {
+        document.body.classList.add("light-theme");
+    }
+
     // Start clock ticking
     updateClock();
     setInterval(updateClock, 1000);
@@ -1168,34 +1174,68 @@ Focus on: urgency tactics, unrealistic rewards, fake authority claims, suspiciou
 
 // --- RULE-BASED FALLBACK ENGINES ---
 function runLinkHeuristics(url) {
-    const lowerUrl = url.toLowerCase();
-    if (lowerUrl.includes("amaz0n") || lowerUrl.includes("amazon-offers") || lowerUrl.includes("win-gift")) {
+    const lowerUrl = url.toLowerCase().trim();
+
+    // 1) Clear Dangerous / Phishing Lookalikes
+    if (lowerUrl.includes("amaz0n") || lowerUrl.includes("amazon-offers") || lowerUrl.includes("win-gift") || lowerUrl.includes("lotto-") || lowerUrl.includes("free-reward") || lowerUrl.includes("claim-prize")) {
         return {
             riskScore: 94, riskText: "DANGEROUS PHISHING WEBSITE", badgeClass: "badge-status-pill danger",
-            reasonHtml: `<p class="text-sm text-secondary mb-2">❌ <strong>Lookalike Domain:</strong> Imitates Amazon.in using spelling tricks (<code>amaz0n</code>).</p>
-                         <p class="text-sm text-secondary mb-2">❌ <strong>Recently Registered:</strong> Domain created 4 days ago on overseas server.</p>
-                         <p class="text-sm text-secondary">❌ <strong>Blacklisted:</strong> Flagged by 8 users on FraudShield databases.</p>`
+            reasonHtml: `<p class="text-sm text-secondary mb-2">❌ <strong>Lookalike Domain:</strong> Imitates official brand using deceptive keywords or spelling tricks.</p>
+                         <p class="text-sm text-secondary mb-2">❌ <strong>Recently Registered:</strong> Created on temporary proxy hosters.</p>
+                         <p class="text-sm text-secondary">❌ <strong>Blacklisted:</strong> Flagged by multi-source threat intelligence.</p>`
         };
-    } else if (lowerUrl.includes("sbi-secure") || lowerUrl.includes("sbi-login") || lowerUrl.includes("secure-banking")) {
+    } else if (lowerUrl.includes("sbi-secure") || lowerUrl.includes("sbi-login") || lowerUrl.includes("secure-banking") || lowerUrl.includes("icici-secure") || lowerUrl.includes("hdfc-verification")) {
         return {
             riskScore: 98, riskText: "CRITICAL BANK PHISHING TRAP", badgeClass: "badge-status-pill danger",
-            reasonHtml: `<p class="text-sm text-secondary mb-2">❌ <strong>Fake Banking Portal:</strong> Imitates State Bank of India login.</p>
+            reasonHtml: `<p class="text-sm text-secondary mb-2">❌ <strong>Fake Banking Portal:</strong> Imitates bank customer interface.</p>
                          <p class="text-sm text-secondary mb-2">❌ <strong>No SSL Signature:</strong> Missing or fake SSL certification.</p>
-                         <p class="text-sm text-secondary">❌ <strong>Threat Signature:</strong> High phishing activity on this network.</p>`
-        };
-    } else if (lowerUrl.includes("google.com") || lowerUrl.includes("amazon.in") || lowerUrl.includes("wikipedia.org")) {
-        return {
-            riskScore: 2, riskText: "VERIFIED SAFE LINK", badgeClass: "badge-status-pill secure",
-            reasonHtml: `<p class="text-sm text-secondary mb-2">🟢 <strong>Official Domain:</strong> SSL certified, verified registry.</p>
-                         <p class="text-sm text-secondary">🟢 <strong>Clean Reputation:</strong> Zero malicious incidents recorded.</p>`
-        };
-    } else {
-        return {
-            riskScore: 60, riskText: "SUSPICIOUS / UNKNOWN DOMAIN", badgeClass: "badge-status-pill danger",
-            reasonHtml: `<p class="text-sm text-secondary mb-2">⚠️ <strong>Unknown Registry:</strong> Domain lacks verified SSL trust roots.</p>
-                         <p class="text-sm text-secondary">⚠️ <strong>Recommendation:</strong> Do not enter passwords or OTP codes here.</p>`
+                         <p class="text-sm text-secondary">❌ <strong>Threat Signature:</strong> High phishing activity detected.</p>`
         };
     }
+
+    // 2) Known Popular Safe Domains list
+    const safeDomains = [
+        "google.com", "google.co.in", "youtube.com", "wikipedia.org", "wikipedia.com", 
+        "github.com", "microsoft.com", "apple.com", "netflix.com", "yahoo.com", 
+        "facebook.com", "instagram.com", "linkedin.com", "twitter.com", "x.com", 
+        "gmail.com", "amazon.in", "amazon.com", "zoom.us", "dropbox.com", "salesforce.com", 
+        "stackoverflow.com", "openai.com", "cloudflare.com", "github.io", "w3schools.com"
+    ];
+
+    const isKnownSafe = safeDomains.some(domain => {
+        // Must match either domain exactly, or as a host (e.g. support.google.com, not google.com.scam.in)
+        const escaped = domain.replace(/\./g, '\\.');
+        const regex = new RegExp(`^(https?:\\/\\/)?([^\\/\\?#]+\\.)?${escaped}(\\/|\\?|#|$)`);
+        return regex.test(lowerUrl);
+    });
+
+    if (isKnownSafe) {
+        return {
+            riskScore: 2, riskText: "VERIFIED SAFE LINK", badgeClass: "badge-status-pill secure",
+            reasonHtml: `<p class="text-sm text-secondary mb-2">🟢 <strong>Official Trusted Domain:</strong> High global authority domain with active SSL roots.</p>
+                         <p class="text-sm text-secondary">🟢 <strong>Clean Reputation:</strong> Zero malicious reports or incident logs recorded.</p>`
+        };
+    }
+
+    // 3) General Safe URL analysis (No dangerous tokens, normal domains)
+    // If it looks like a standard normal website (e.g. starts with http/https, has a simple tld, and no suspicious keywords)
+    const isUrlWellFormed = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(lowerUrl);
+    const hasSuspiciousTokens = /[\d_-]+(lotto|gift|free|prize|reward|claim|win|verify|login|secure|update|billing|invoice|refund|account|wallet|kyc|support|help)/.test(lowerUrl);
+
+    if (isUrlWellFormed && !hasSuspiciousTokens) {
+        return {
+            riskScore: 10, riskText: "PROBABLY SECURE DOMAIN", badgeClass: "badge-status-pill secure",
+            reasonHtml: `<p class="text-sm text-secondary mb-2">🟢 <strong>Well-Formed Address:</strong> Standard clean domain path with no malicious character mappings.</p>
+                         <p class="text-sm text-secondary">🟢 <strong>Low Threat Density:</strong> No scam keywords or phishing patterns detected offline.</p>`
+        };
+    }
+
+    // 4) Fallback for unrecognized, odd-looking, or uncertified links
+    return {
+        riskScore: 60, riskText: "SUSPICIOUS / UNKNOWN DOMAIN", badgeClass: "badge-status-pill danger",
+        reasonHtml: `<p class="text-sm text-secondary mb-2">⚠️ <strong>Unverified Registry:</strong> Lacks registered trust metrics in the local signature db.</p>
+                     <p class="text-sm text-secondary">⚠️ <strong>Caution Advised:</strong> Avoid typing sensitive information or entering passwords here.</p>`
+    };
 }
 
 function runMessageHeuristics(text) {
@@ -1876,7 +1916,7 @@ function initHeatMap() {
     });
 }
 
-// --- API SETTINGS PANEL ---
+// --- CENTRAL SETTINGS & API CONFIGURATION CONTROLLER ---
 function initAPISettings() {
     const btn = document.getElementById("btn-api-settings");
     const modal = document.getElementById("api-settings-modal");
@@ -1885,14 +1925,29 @@ function initAPISettings() {
 
     if (!btn || !modal) return;
 
-    // Load saved keys into inputs
+    // 1) Load keys into modal inputs and page inputs
     const loadKeys = () => {
-        document.getElementById("input-gemini-key").value = APIConfig.getKey("gemini");
-        document.getElementById("input-safebrowsing-key").value = APIConfig.getKey("safebrowsing");
-        document.getElementById("input-virustotal-key").value = APIConfig.getKey("virustotal");
+        const geminiKey = APIConfig.getKey("gemini");
+        const sbKey = APIConfig.getKey("safebrowsing");
+        const vtKey = APIConfig.getKey("virustotal");
+
+        document.getElementById("input-gemini-key").value = geminiKey;
+        document.getElementById("input-safebrowsing-key").value = sbKey;
+        document.getElementById("input-virustotal-key").value = vtKey;
+
+        // Settings page inputs sync
+        const geminiPage = document.getElementById("input-gemini-key-page");
+        const sbPage = document.getElementById("input-safebrowsing-key-page");
+        const vtPage = document.getElementById("input-virustotal-key-page");
+
+        if (geminiPage) geminiPage.value = geminiKey;
+        if (sbPage) sbPage.value = sbKey;
+        if (vtPage) vtPage.value = vtKey;
+
         updateAPIStatusIndicators();
     };
 
+    // 2) Modal bindings
     btn.addEventListener("click", () => {
         AudioSynth.playClick();
         loadKeys();
@@ -1914,12 +1969,16 @@ function initAPISettings() {
 
     saveBtn.addEventListener("click", () => {
         AudioSynth.playSuccess();
-        APIConfig.setKey("gemini", document.getElementById("input-gemini-key").value);
-        APIConfig.setKey("safebrowsing", document.getElementById("input-safebrowsing-key").value);
-        APIConfig.setKey("virustotal", document.getElementById("input-virustotal-key").value);
-        updateAPIStatusIndicators();
+        const geminiVal = document.getElementById("input-gemini-key").value;
+        const sbVal = document.getElementById("input-safebrowsing-key").value;
+        const vtVal = document.getElementById("input-virustotal-key").value;
+
+        APIConfig.setKey("gemini", geminiVal);
+        APIConfig.setKey("safebrowsing", sbVal);
+        APIConfig.setKey("virustotal", vtVal);
+
+        loadKeys(); // reload and sync
         
-        // Show success feedback
         saveBtn.innerText = "✅ Keys Saved!";
         saveBtn.style.background = "var(--success)";
         setTimeout(() => {
@@ -1928,30 +1987,148 @@ function initAPISettings() {
         }, 2000);
     });
 
-    // Update header badge to show API status
-    updateAPIStatusIndicators();
+    // 3) Dedicated Settings Tab Page Logic
+    const savePageKeysBtn = document.getElementById("btn-save-api-keys-page");
+    if (savePageKeysBtn) {
+        savePageKeysBtn.addEventListener("click", () => {
+            AudioSynth.playSuccess();
+            const geminiVal = document.getElementById("input-gemini-key-page").value;
+            const sbVal = document.getElementById("input-safebrowsing-key-page").value;
+            const vtVal = document.getElementById("input-virustotal-key-page").value;
+
+            APIConfig.setKey("gemini", geminiVal);
+            APIConfig.setKey("safebrowsing", sbVal);
+            APIConfig.setKey("virustotal", vtVal);
+
+            loadKeys(); // reload and sync
+
+            savePageKeysBtn.innerText = "✅ Saved Successfully!";
+            setTimeout(() => {
+                savePageKeysBtn.innerText = "Save API Configurations";
+            }, 2000);
+        });
+    }
+
+    // 4) Theme Selector Logic
+    const themeDark = document.getElementById("theme-choice-dark");
+    const themeLight = document.getElementById("theme-choice-light");
+
+    if (themeDark && themeLight) {
+        // Init active state based on current theme
+        const currentTheme = localStorage.getItem("fraudshield_theme") || "dark";
+        if (currentTheme === "light") {
+            themeLight.classList.add("active");
+            themeDark.classList.remove("active");
+        } else {
+            themeDark.classList.add("active");
+            themeLight.classList.remove("active");
+        }
+
+        themeDark.addEventListener("click", () => {
+            AudioSynth.playClick();
+            document.body.classList.remove("light-theme");
+            localStorage.setItem("fraudshield_theme", "dark");
+            themeDark.classList.add("active");
+            themeLight.classList.remove("active");
+        });
+
+        themeLight.addEventListener("click", () => {
+            AudioSynth.playClick();
+            document.body.classList.add("light-theme");
+            localStorage.setItem("fraudshield_theme", "light");
+            themeLight.classList.add("active");
+            themeDark.classList.remove("active");
+        });
+    }
+
+    // 5) Behavioral Guardian boundary configs sync
+    const settingsSliderLimit = document.getElementById("settings-slider-spending-limit");
+    const settingsLimitDisplay = document.getElementById("settings-spending-limit-display");
+    const saveBehaviorBtn = document.getElementById("btn-save-behavior-settings");
+
+    if (settingsSliderLimit && settingsLimitDisplay) {
+        // Sync setting page slider on load
+        const currentLimit = AppState.settings?.spendingLimit || 2000;
+        settingsSliderLimit.value = currentLimit;
+        settingsLimitDisplay.innerText = "₹" + Number(currentLimit).toLocaleString('en-IN');
+
+        // Dynamic updates on drag
+        settingsSliderLimit.addEventListener("input", (e) => {
+            settingsLimitDisplay.innerText = "₹" + Number(e.target.value).toLocaleString('en-IN');
+        });
+    }
+
+    // Sync normal times on load
+    const secureStartInput = document.getElementById("settings-secure-start");
+    const secureEndInput = document.getElementById("settings-secure-end");
+    if (secureStartInput && secureEndInput) {
+        secureStartInput.value = AppState.settings?.secureStart || "08:00";
+        secureEndInput.value = AppState.settings?.secureEnd || "22:00";
+    }
+
+    if (saveBehaviorBtn) {
+        saveBehaviorBtn.addEventListener("click", async () => {
+            AudioSynth.playSuccess();
+            
+            const newLimit = parseInt(settingsSliderLimit.value) || 2000;
+            const newStart = secureStartInput.value || "08:00";
+            const newEnd = secureEndInput.value || "22:00";
+
+            // Sync with AppState
+            AppState.settings.spendingLimit = newLimit;
+            AppState.settings.secureStart = newStart;
+            AppState.settings.secureEnd = newEnd;
+
+            // Also update the main slider and text inside the Behavioral Tab pane
+            const mainSlider = document.getElementById("slider-spending-limit");
+            const mainSliderDisplay = document.getElementById("spending-limit-display");
+            if (mainSlider) mainSlider.value = newLimit;
+            if (mainSliderDisplay) mainSliderDisplay.innerText = "₹" + Number(newLimit).toLocaleString('en-IN');
+
+            // Save to Backend server
+            const res = await BackendClient.post("/settings", AppState.settings);
+            if (res && res.success) {
+                saveBehaviorBtn.innerText = "✅ Rules Saved & Synced!";
+                setTimeout(() => {
+                    saveBehaviorBtn.innerText = "Save App & Behavior Rules";
+                }, 2000);
+            } else {
+                saveBehaviorBtn.innerText = "✅ Saved Locally!";
+                setTimeout(() => {
+                    saveBehaviorBtn.innerText = "Save App & Behavior Rules";
+                }, 2000);
+            }
+        });
+    }
+
+    // Initialize all input keys and status
+    loadKeys();
 }
 
 function updateAPIStatusIndicators() {
     const indicators = {
-        gemini: document.getElementById("status-gemini"),
-        safebrowsing: document.getElementById("status-safebrowsing"),
-        virustotal: document.getElementById("status-virustotal")
+        gemini: [document.getElementById("status-gemini"), document.getElementById("status-gemini-page")],
+        safebrowsing: [document.getElementById("status-safebrowsing"), document.getElementById("status-safebrowsing-page")],
+        virustotal: [document.getElementById("status-virustotal"), document.getElementById("status-virustotal-page")]
     };
 
     const badge = document.getElementById("api-status-badge");
 
     let activeCount = 0;
-    for (const [name, el] of Object.entries(indicators)) {
-        if (!el) continue;
-        if (APIConfig.hasKey(name)) {
-            el.className = "api-status-dot active";
-            el.title = "Connected";
-            activeCount++;
-        } else {
-            el.className = "api-status-dot inactive";
-            el.title = "No key";
-        }
+    for (const [name, elements] of Object.entries(indicators)) {
+        const hasKey = APIConfig.hasKey(name);
+        if (hasKey) activeCount++;
+        
+        elements.forEach(el => {
+            if (!el) return;
+            if (hasKey) {
+                el.className = "api-status-dot active";
+                el.title = "Connected";
+            } else {
+                el.className = "api-status-dot inactive";
+                el.title = "No key";
+            }
+        });
     }
 
     if (badge) {

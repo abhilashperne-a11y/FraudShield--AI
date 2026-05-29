@@ -159,6 +159,13 @@
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                     <span>Fraud Academy</span>
                 </button>
+                <button class="nav-btn" data-tab="settings-tab" id="btn-tab-settings-tab">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    <span>Settings</span>
+                </button>
                 <button class="nav-btn text-danger" data-tab="emergency" id="btn-tab-emergency">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg>
                     <span>Emergency Desk</span>
@@ -948,6 +955,141 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- TAB 8: CENTRAL SETTINGS PANEL -->
+                <section class="tab-pane" id="pane-settings-tab">
+                    <div class="grid-2col">
+                        <!-- Left Side: Preferences & Behavioral Guardian -->
+                        <div class="card glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">App &amp; Behavioral Preferences</h3>
+                                <p class="card-subtitle">Manage themes, diurnal windows, and shield boundaries</p>
+                            </div>
+                            
+                            <!-- Theme Selection -->
+                            <div class="form-group mt-4">
+                                <label class="form-label">Visual Interface Theme</label>
+                                <div class="grid-2col gap-4 mt-2">
+                                    <!-- Dark Mode Card -->
+                                    <div class="theme-choice-card active" id="theme-choice-dark">
+                                        <div class="theme-preview dark">
+                                            <div class="preview-header"></div>
+                                            <div class="preview-body"></div>
+                                        </div>
+                                        <span class="theme-label">Cyber Dark Mode</span>
+                                    </div>
+                                    
+                                    <!-- Light Mode Card -->
+                                    <div class="theme-choice-card" id="theme-choice-light">
+                                        <div class="theme-preview light">
+                                            <div class="preview-header"></div>
+                                            <div class="preview-body"></div>
+                                        </div>
+                                        <span class="theme-label">Modern Light Mode</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--border);">
+
+                            <!-- Behavioral Guardian Configurations -->
+                            <div class="behavioral-settings-group">
+                                <h4 class="font-bold text-gradient text-md mb-2">Behavioral Guardian Boundaries</h4>
+                                
+                                <div class="form-group">
+                                    <label class="form-label d-flex justify-between">
+                                        <span>Usual Single Payment Limit:</span>
+                                        <strong id="settings-spending-limit-display" class="text-gradient">₹2,000</strong>
+                                    </label>
+                                    <input type="range" class="form-range" id="settings-slider-spending-limit" min="500" max="10000" step="500" value="2000">
+                                    <span class="form-help mt-1">Transactions exceeding this limit trigger step-up MFA and warnings.</span>
+                                </div>
+
+                                <div class="grid-2col gap-4 mt-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="settings-secure-start">Diurnal Start (Normal Hours)</label>
+                                        <input type="time" id="settings-secure-start" class="form-input" value="08:00">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="settings-secure-end">Diurnal End (Normal Hours)</label>
+                                        <input type="time" id="settings-secure-end" class="form-input" value="22:00">
+                                    </div>
+                                </div>
+                                <span class="form-help mt-1 d-block">Late-night transactions outside this boundary are flagged as high risk.</span>
+
+                                <div class="form-group mt-4">
+                                    <label class="form-label flex-between">
+                                        <span>Block Remote Sharing Apps</span>
+                                        <label class="switch-toggle" style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                            <input type="checkbox" id="settings-toggle-remote" checked style="opacity: 0; width: 0; height: 0;">
+                                            <span class="slider-round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border); transition: .3s; border-radius: 24px;"></span>
+                                        </label>
+                                    </label>
+                                    <span class="form-help">Automatically interrupts payment pipelines if screen-sharing apps (AnyDesk, TeamViewer) are active.</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-secondary btn-full mt-6" id="btn-save-behavior-settings">
+                                Save App &amp; Behavior Rules
+                            </button>
+                        </div>
+
+                        <!-- Right Side: API Configurations -->
+                        <div class="card glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Live API Key Configurations</h3>
+                                <p class="card-subtitle">Add free third-party keys to power dynamic scanners</p>
+                            </div>
+                            
+                            <div class="api-keys-page-form mt-4">
+                                <!-- Gemini API Key -->
+                                <div class="form-group">
+                                    <div class="flex-between">
+                                        <label class="form-label font-bold">Google Gemini API Key:</label>
+                                        <span class="api-status-dot inactive" id="status-gemini-page"></span>
+                                    </div>
+                                    <input type="password" id="input-gemini-key-page" class="form-input font-mono" placeholder="AIzaSy... (Free key from AI Studio)">
+                                    <a href="https://aistudio.google.com/apikey" target="_blank" class="api-help-link">Get Free Gemini Key →</a>
+                                </div>
+
+                                <!-- Safe Browsing Key -->
+                                <div class="form-group mt-4">
+                                    <div class="flex-between">
+                                        <label class="form-label font-bold">Google Safe Browsing API Key:</label>
+                                        <span class="api-status-dot inactive" id="status-safebrowsing-page"></span>
+                                    </div>
+                                    <input type="password" id="input-safebrowsing-key-page" class="form-input font-mono" placeholder="AIzaSy... (Free key from Cloud Console)">
+                                    <a href="https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com" target="_blank" class="api-help-link">Get Free Safe Browsing Key →</a>
+                                </div>
+
+                                <!-- VirusTotal Key -->
+                                <div class="form-group mt-4">
+                                    <div class="flex-between">
+                                        <label class="form-label font-bold">VirusTotal API Key:</label>
+                                        <span class="api-status-dot inactive" id="status-virustotal-page"></span>
+                                    </div>
+                                    <input type="password" id="input-virustotal-key-page" class="form-input font-mono" placeholder="Paste 64-char hex key...">
+                                    <a href="https://www.virustotal.com/gui/join-us" target="_blank" class="api-help-link">Get Free VirusTotal Key →</a>
+                                </div>
+
+                                <button class="btn btn-primary btn-full mt-6" id="btn-save-api-keys-page">
+                                    Save API Configurations
+                                </button>
+                            </div>
+
+                            <div class="warning-alert-box bg-cyber-trans border-cyber mt-6">
+                                <div class="alert-header font-bold text-cyber flex-center gap-2">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="alert-icon-svg"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                                    <span>Sync Reminder:</span>
+                                </div>
+                                <p class="alert-text mt-1 text-sm text-secondary">
+                                    These keys are stored safely inside your local web storage and synchronize automatically with the live scanners. You can also write them in <code>.api-keys.md</code> for auto-loading on startup.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
 
             </div>
         </main>

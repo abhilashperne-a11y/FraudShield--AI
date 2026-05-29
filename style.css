@@ -2017,3 +2017,245 @@ h1, h2, h3, h4, h5, h6 {
     padding: 16px 28px 24px;
     border-top: 1px solid var(--border);
 }
+
+/* ==========================================================================
+   LIGHT THEME OVERRIDES
+   ========================================================================== */
+body.light-theme {
+    --background: hsl(220, 20%, 94%); /* Sleek premium light background */
+    --surface: hsl(0, 0%, 100%); /* Solid pure white surfaces */
+    --surface-hover: hsl(210, 20%, 97%);
+    --border: hsl(215, 20%, 82%); /* Subtle border */
+    --border-glow: hsl(185, 90%, 45%);
+    
+    --primary: hsl(185, 90%, 42%); /* Vibrant, dark cyan for light mode readability */
+    --primary-trans: rgba(0, 185, 200, 0.08);
+    --secondary: hsl(222, 47%, 12%); /* Deep midnight-slate text */
+    --text-secondary: hsl(220, 12%, 42%); /* Slate grey text */
+    
+    --emerald: hsl(145, 80%, 32%); /* Rich dark green */
+    --emerald-trans: rgba(0, 160, 80, 0.08);
+    --amber: hsl(28, 90%, 38%); /* Deep copper-amber */
+    --amber-trans: rgba(220, 100, 0, 0.08);
+    --rose: hsl(340, 90%, 42%); /* Deep rich crimson */
+    --rose-trans: rgba(220, 0, 60, 0.08);
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --shadow-glow-cyan: 0 0 15px rgba(0, 185, 200, 0.2);
+    --shadow-glow-rose: 0 0 15px rgba(220, 0, 60, 0.2);
+}
+
+body.light-theme .sidebar {
+    background-color: hsl(222, 20%, 90%);
+    border-right: 1px solid var(--border);
+}
+
+body.light-theme .logo-shield {
+    color: white;
+}
+
+body.light-theme .nav-btn:hover:not(.active) {
+    background-color: hsl(220, 15%, 85%);
+}
+
+body.light-theme .nav-btn.active {
+    background: linear-gradient(90deg, var(--primary) 0%, hsl(145, 80%, 45%) 100%);
+    color: white;
+}
+
+body.light-theme .top-bar {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid var(--border);
+}
+
+body.light-theme .quick-scans-list .tag-pill {
+    background-color: hsl(220, 15%, 88%);
+    color: var(--secondary);
+}
+
+body.light-theme .quick-scans-list .tag-pill:hover {
+    background-color: var(--primary-trans);
+    color: var(--primary);
+}
+
+body.light-theme .segmented-control {
+    background-color: hsl(220, 15%, 88%);
+}
+
+body.light-theme .control-btn {
+    color: var(--text-secondary);
+}
+
+body.light-theme .control-label input:checked + .control-btn {
+    background-color: var(--surface);
+    color: var(--secondary);
+    box-shadow: var(--shadow-sm);
+}
+
+body.light-theme .form-input, body.light-theme .form-textarea {
+    background-color: hsl(0, 0%, 98%);
+    border: 1px solid var(--border);
+    color: var(--secondary);
+}
+
+body.light-theme .form-input:focus, body.light-theme .form-textarea:focus {
+    border-color: var(--primary);
+    background-color: white;
+    box-shadow: 0 0 0 3px var(--primary-trans);
+}
+
+body.light-theme .input-with-icon .input-symbol {
+    color: var(--text-secondary);
+}
+
+body.light-theme .threat-row {
+    background-color: hsl(220, 15%, 96%);
+}
+
+body.light-theme .explainable-ai-panel {
+    background-color: hsl(220, 15%, 96%);
+    border-top: 1px solid var(--border);
+}
+
+body.light-theme .quiz-option {
+    background-color: hsl(220, 15%, 96%);
+    border: 1px solid var(--border);
+    color: var(--secondary);
+}
+
+body.light-theme .quiz-option:hover {
+    background-color: hsl(220, 15%, 92%);
+}
+
+body.light-theme .quiz-option.selected {
+    background-color: var(--primary-trans);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+body.light-theme .high-tech-map {
+    filter: invert(0.85) hue-rotate(180deg);
+}
+
+body.light-theme .vocal-chat-log {
+    background-color: hsl(220, 15%, 96%);
+}
+
+body.light-theme .chat-bubble.assistant {
+    background-color: var(--surface);
+    color: var(--secondary);
+    border: 1px solid var(--border);
+}
+
+body.light-theme .chat-bubble.user {
+    background-color: var(--primary);
+    color: white;
+}
+
+body.light-theme .map-hover-info {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--secondary);
+}
+
+body.light-theme .api-modal-card {
+    background-color: var(--surface);
+    color: var(--secondary);
+}
+
+body.light-theme .api-key-input {
+    background-color: hsl(0, 0%, 98%);
+    border: 1px solid var(--border);
+    color: var(--secondary);
+}
+
+/* ==========================================================================
+   THEME SELECTION CARD AESTHETICS
+   ========================================================================== */
+.theme-choice-card {
+    border: 2px solid var(--border);
+    background-color: var(--surface);
+    border-radius: 14px;
+    padding: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.theme-choice-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-glow-cyan);
+}
+
+.theme-choice-card.active {
+    border-color: var(--primary);
+    background-color: var(--primary-trans);
+}
+
+.theme-preview {
+    width: 100%;
+    height: 70px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.theme-preview.dark {
+    background-color: hsl(222, 47%, 6%);
+}
+.theme-preview.dark .preview-header {
+    height: 15px;
+    background-color: hsl(222, 40%, 11%);
+    border-bottom: 1px solid hsl(217, 30%, 18%);
+}
+.theme-preview.dark .preview-body {
+    flex-grow: 1;
+    background-color: hsl(222, 47%, 6%);
+}
+
+.theme-preview.light {
+    background-color: hsl(220, 20%, 94%);
+}
+.theme-preview.light .preview-header {
+    height: 15px;
+    background-color: white;
+    border-bottom: 1px solid hsl(215, 15%, 85%);
+}
+.theme-preview.light .preview-body {
+    flex-grow: 1;
+    background-color: hsl(220, 20%, 94%);
+}
+
+.theme-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Toggle switches styles */
+.switch-toggle input:checked + .slider-round {
+    background-color: var(--primary) !important;
+}
+
+.switch-toggle input:checked + .slider-round:before {
+    transform: translateX(20px);
+}
+
+.slider-round:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
