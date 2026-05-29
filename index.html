@@ -147,10 +147,6 @@
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                     <span>Link &amp; SMS Scanner</span>
                 </button>
-                <button class="nav-btn" data-tab="voice" id="btn-tab-voice">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
-                    <span>Voice Safety AI</span>
-                </button>
                 <button class="nav-btn" data-tab="behavior" id="btn-tab-behavior">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
                     <span>Behavioral Guardian</span>
@@ -586,108 +582,6 @@
 
                                 <div class="scan-result-card mt-4" id="msg-scan-result" style="display: none;">
                                     <!-- Dynamic HTML output filled by JS -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- TAB 4: VOICE SAFETY AI -->
-                <section class="tab-pane" id="pane-voice">
-                    <div class="grid-2col">
-                        <!-- Voice Control Card -->
-                        <div class="card glass-card flex-col align-center justify-between">
-                            <div class="card-header text-center w-full">
-                                <h3 class="card-title">Voice Safety Assistant</h3>
-                                <p class="card-subtitle">Elderly-friendly security agent answering voice questions</p>
-                            </div>
-                            
-                            <!-- Large interactive audio waveform and microphone button -->
-                            <div class="voice-assistant-core my-6 text-center">
-                                <div class="voice-avatar-glow" id="voice-avatar">
-                                    <div class="inner-core">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" class="w-8 h-8">
-                                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/>
-                                        </svg>
-                                    </div>
-                                    <!-- Orbiting high-tech bars -->
-                                    <div class="orbit-ring"></div>
-                                </div>
-
-                                <div class="waveform-animation mt-6" id="audio-waveform">
-                                    <span class="wave-bar bar-1"></span>
-                                    <span class="wave-bar bar-2"></span>
-                                    <span class="wave-bar bar-3"></span>
-                                    <span class="wave-bar bar-4"></span>
-                                    <span class="wave-bar bar-5"></span>
-                                    <span class="wave-bar bar-6"></span>
-                                    <span class="wave-bar bar-7"></span>
-                                </div>
-
-                                <div class="voice-speech-text mt-4 font-bold text-gradient" id="voice-recognized-bubble">
-                                    "Tap the button below and ask me if a payment is safe..."
-                                </div>
-                            </div>
-
-                            <!-- Selector for native language -->
-                            <div class="language-selection w-full">
-                                <label class="form-label text-center">Language Support (मातृभाषा)</label>
-                                <div class="segmented-control language-grid">
-                                    <label class="control-label">
-                                        <input type="radio" name="voice-lang" value="en" checked>
-                                        <span class="control-btn font-bold">English</span>
-                                    </label>
-                                    <label class="control-label">
-                                        <input type="radio" name="voice-lang" value="hi">
-                                        <span class="control-btn font-bold">हिन्दी (Hindi)</span>
-                                    </label>
-                                    <label class="control-label">
-                                        <input type="radio" name="voice-lang" value="ml">
-                                        <span class="control-btn font-bold">മലയാളം (Mal.)</span>
-                                    </label>
-                                    <label class="control-label">
-                                        <input type="radio" name="voice-lang" value="ta">
-                                        <span class="control-btn font-bold">தமிழ் (Tamil)</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Text Input Fallback simulator -->
-                            <div class="form-group w-full mt-4" style="margin-bottom: 0.5rem;">
-                                <label class="form-label" for="voice-text-input">Type Question directly (mic fallback):</label>
-                                <div class="input-with-icon">
-                                    <input type="text" id="voice-text-input" class="form-input" style="padding-right: 75px;" placeholder="e.g. Is this lotto link safe?">
-                                    <button class="btn btn-primary text-xs" id="btn-voice-send" style="position: absolute; right: 4px; padding: 0.5rem 1rem; height: 80%; top: 10%;">Ask</button>
-                                </div>
-                            </div>
-
-                            <button class="btn btn-primary btn-full mt-4" id="btn-trigger-voice-mic">
-                                <span class="flex-center gap-2">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
-                                    <span id="voice-btn-text">Start Listening</span>
-                                </span>
-                            </button>
-                        </div>
-
-                        <!-- Simulated vocal feedback and conversational chat logs -->
-                        <div class="card glass-card scrollable-card flex-col justify-between">
-                            <div class="card-header">
-                                <h3 class="card-title">Vocal Advice Logs</h3>
-                                <p class="card-subtitle">Real-time transcripts of vocal cybersecurity recommendations</p>
-                            </div>
-                            <div class="vocal-chat-log" id="voice-chat-transcript">
-                                <div class="chat-bubble assistant">
-                                    <div class="chat-sender font-bold">FraudShield Voice AI</div>
-                                    <div class="chat-text">Hello Amit! I am your Voice Security Assistant. You can speak to me or select a common concern below. I will guide you verbally in your selected language.</div>
-                                </div>
-                            </div>
-                            <div class="suggested-queries mt-4">
-                                <p class="text-xs text-secondary mb-2">Popular Inquiries:</p>
-                                <div class="flex-wrap gap-2">
-                                    <button class="tag-pill text-xs font-bold" onclick="simulateVoiceQuery('safe')">Is this transaction safe?</button>
-                                    <button class="tag-pill text-xs font-bold" onclick="simulateVoiceQuery('lottery')">I got a call saying I won a prize!</button>
-                                    <button class="tag-pill text-xs font-bold" onclick="simulateVoiceQuery('electricity')">My power will be disconnected today?</button>
                                 </div>
                             </div>
                         </div>
