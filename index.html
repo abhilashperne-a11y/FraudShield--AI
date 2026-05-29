@@ -262,20 +262,20 @@
                             <div class="map-container">
                                 <!-- High Tech Custom SVG Indian Map representation -->
                                 <svg id="india-fraud-map" viewBox="0 0 400 450" class="high-tech-map">
-                                    <!-- Simple styled path grids representing Indian sub-regions -->
+                                    <!-- CONTIGUOUS STYLIZED REGIONS OF THE INDIAN UNION -->
                                     <g class="map-regions" stroke="#1d2d44" stroke-width="1.5" fill="#0d1b2a">
-                                        <!-- North -->
-                                        <path d="M 120,40 L 190,10 L 230,50 L 200,100 L 140,80 Z" id="region-north" class="map-region-path"/>
-                                        <!-- West -->
-                                        <path d="M 60,150 L 140,160 L 150,230 L 70,250 L 50,190 Z" id="region-west" class="map-region-path"/>
-                                        <!-- Central -->
-                                        <path d="M 140,80 L 200,100 L 230,170 L 150,230 L 130,150 Z" id="region-central" class="map-region-path"/>
-                                        <!-- East -->
-                                        <path d="M 230,50 L 320,80 L 350,150 L 280,210 L 200,100 Z" id="region-east" class="map-region-path"/>
-                                        <!-- Northeast -->
-                                        <path d="M 320,80 L 390,90 L 370,140 L 310,130 Z" id="region-northeast" class="map-region-path"/>
-                                        <!-- South -->
-                                        <path d="M 150,230 L 230,170 L 250,280 L 200,420 L 130,320 Z" id="region-south" class="map-region-path"/>
+                                        <!-- North Zone: Jammu & Kashmir, Ladakh, Punjab, HP, Haryana, Delhi, Uttarakhand, UP -->
+                                        <path d="M 175,20 L 195,20 L 205,35 L 190,60 L 210,80 L 215,110 L 225,120 L 180,120 L 140,110 L 140,90 L 165,75 L 165,55 Z" id="region-north" class="map-region-path"/>
+                                        <!-- West Zone: Rajasthan, Gujarat, Maharashtra, Goa -->
+                                        <path d="M 140,110 L 180,120 L 175,170 L 145,210 L 105,210 L 80,195 L 75,210 L 60,200 L 75,180 L 60,170 L 80,165 L 100,125 Z" id="region-west" class="map-region-path"/>
+                                        <!-- Central Zone: Madhya Pradesh, Chhattisgarh -->
+                                        <path d="M 180,120 L 220,125 L 245,170 L 215,220 L 175,225 L 175,170 Z" id="region-central" class="map-region-path"/>
+                                        <!-- East Zone: Bihar, Jharkhand, Odisha, West Bengal -->
+                                        <path d="M 220,125 L 275,130 L 290,165 L 265,175 L 275,190 L 285,175 L 290,195 L 260,225 L 245,225 L 245,170 Z" id="region-east" class="map-region-path"/>
+                                        <!-- Northeast Zone: Sikkim and the Seven Sister States -->
+                                        <path d="M 290,165 L 305,160 L 320,135 L 345,135 L 360,150 L 340,175 L 315,175 L 310,195 L 290,190 Z" id="region-northeast" class="map-region-path"/>
+                                        <!-- South Zone: Karnataka, Andhra Pradesh, Telangana, Kerala, Tamil Nadu -->
+                                        <path d="M 145,210 L 175,225 L 215,220 L 260,225 L 245,290 L 215,360 L 195,410 L 180,350 L 145,300 L 130,260 L 140,240 Z" id="region-south" class="map-region-path"/>
                                     </g>
                                     
                                     <!-- Animated Grid Overlay -->
@@ -289,27 +289,27 @@
                                     <!-- Hotspots (Pulsing glowing dots for alerts) -->
                                     <g id="map-hotspots">
                                         <!-- Delhi -->
-                                        <g class="hotspot pulse-red" transform="translate(180, 80)" data-region="North" data-city="Delhi NCR" data-type="OTP Scam" data-level="High">
+                                        <g class="hotspot pulse-red" transform="translate(178, 85)" data-region="North" data-city="Delhi NCR" data-type="OTP Scam" data-level="High">
                                             <circle r="18" fill="rgba(255, 0, 85, 0.15)" class="ping-circle" />
                                             <circle r="6" fill="#ff0055" />
                                         </g>
                                         <!-- Mumbai -->
-                                        <g class="hotspot pulse-orange" transform="translate(95, 210)" data-region="West" data-city="Mumbai" data-type="Fake Electricity Bill" data-level="Medium">
+                                        <g class="hotspot pulse-orange" transform="translate(105, 215)" data-region="West" data-city="Mumbai" data-type="Fake Electricity Bill" data-level="Medium">
                                             <circle r="15" fill="rgba(247, 127, 0, 0.2)" class="ping-circle" />
                                             <circle r="5" fill="#f77f00" />
                                         </g>
                                         <!-- Bangalore -->
-                                        <g class="hotspot pulse-red" transform="translate(170, 310)" data-region="South" data-city="Bengaluru" data-type="UPI QR Code Phishing" data-level="High">
+                                        <g class="hotspot pulse-red" transform="translate(180, 320)" data-region="South" data-city="Bengaluru" data-type="UPI QR Code Phishing" data-level="High">
                                             <circle r="22" fill="rgba(255, 0, 85, 0.15)" class="ping-circle" />
                                             <circle r="7" fill="#ff0055" />
                                         </g>
                                         <!-- Kolkata -->
-                                        <g class="hotspot pulse-green" transform="translate(290, 170)" data-region="East" data-city="Kolkata" data-type="Job Offer Scam" data-level="Low">
+                                        <g class="hotspot pulse-green" transform="translate(265, 185)" data-region="East" data-city="Kolkata" data-type="Job Offer Scam" data-level="Low">
                                             <circle r="12" fill="rgba(0, 228, 120, 0.2)" class="ping-circle" />
                                             <circle r="4" fill="#00e478" />
                                         </g>
                                         <!-- Kochi -->
-                                        <g class="hotspot pulse-orange" transform="translate(150, 370)" data-region="South" data-city="Kochi" data-type="FedEx Parcel Scam" data-level="Medium">
+                                        <g class="hotspot pulse-orange" transform="translate(165, 370)" data-region="South" data-city="Kochi" data-type="FedEx Parcel Scam" data-level="Medium">
                                             <circle r="15" fill="rgba(247, 127, 0, 0.2)" class="ping-circle" />
                                             <circle r="5" fill="#f77f00" />
                                         </g>
