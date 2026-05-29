@@ -1662,18 +1662,65 @@ function initHeatMap() {
     const mapInfoRisk = document.getElementById("map-info-risk");
     const mapDetailCard = document.getElementById("map-detail-card");
 
+    const StateThreatData = {
+        jk: { name: "Jammu & Kashmir / Ladakh", risk: 28, threat: "Low", scam: "Sim Impersonation", color: "safe" },
+        py: { name: "Punjab & Haryana (Delhi)", risk: 82, threat: "High", scam: "Job Offer / OTP Scam", color: "high" },
+        hu: { name: "Himachal & Uttarakhand", risk: 22, threat: "Low", scam: "Fake Customer Care No.", color: "safe" },
+        rj: { name: "Rajasthan", risk: 58, threat: "Medium", scam: "Electricity Bill Fraud", color: "medium" },
+        gj: { name: "Gujarat", risk: 54, threat: "Medium", scam: "UPI Collect Request", color: "medium" },
+        up: { name: "Uttar Pradesh", risk: 78, threat: "High", scam: "KBC Lottery Bait", color: "high" },
+        mp: { name: "Madhya Pradesh", risk: 42, threat: "Medium", scam: "Aadhaar Enabled Payment", color: "medium" },
+        mh: { name: "Maharashtra", risk: 82, threat: "High", scam: "Fake Electricity Bill / Part-time Job", color: "high" },
+        ka: { name: "Karnataka", risk: 85, threat: "High", scam: "UPI QR Code Phishing", color: "high" },
+        ap: { name: "Andhra & Telangana", risk: 62, threat: "Medium", scam: "KYC Suspicious Update", color: "medium" },
+        kl: { name: "Kerala", risk: 35, threat: "Medium", scam: "FedEx Parcel Scam", color: "medium" },
+        tn: { name: "Tamil Nadu", risk: 48, threat: "Medium", scam: "Gas Connection Rebate", color: "medium" },
+        br: { name: "Bihar & Jharkhand", risk: 72, threat: "High", scam: "OTP Phishing & Takeover", color: "high" },
+        od: { name: "Odisha & Chhattisgarh", risk: 38, threat: "Medium", scam: "PM-Kisan Fraud Bait", color: "medium" },
+        wb: { name: "West Bengal", risk: 56, threat: "Medium", scam: "E-wallet Freeze Scare", color: "medium" },
+        ne: { name: "Northeast States", risk: 30, threat: "Low", scam: "Remote Support Trap", color: "safe" }
+    };
+
+    const statePaths = document.querySelectorAll(".map-state-path");
+
+    // 1. Mouseover interactions for all detailed state paths
+    statePaths.forEach(path => {
+        const stateId = path.getAttribute("id").replace("state-", "");
+        const data = StateThreatData[stateId];
+
+        path.addEventListener("mouseenter", () => {
+            statePaths.forEach(p => p.classList.remove("active"));
+            path.classList.add("active");
+
+            if (data) {
+                mapInfoCity.innerText = data.name;
+                mapInfoScam.innerText = data.scam;
+                mapInfoRisk.innerText = `${data.threat} Threat (${data.risk}%)`;
+                if (data.color === 'safe') {
+                    mapInfoRisk.className = "badge-risk safe";
+                } else if (data.color === 'medium') {
+                    mapInfoRisk.className = "badge-risk medium";
+                } else {
+                    mapInfoRisk.className = "badge-risk high";
+                }
+                mapDetailCard.style.display = "block";
+            }
+        });
+    });
+
+    // 2. Pulse Hotspots Click/Hover Interactivity
     hotspots.forEach(spot => {
-        // Trigger tooltip hover values
         spot.addEventListener("click", () => {
             AudioSynth.playClick();
-            
+
             const city = spot.getAttribute("data-city");
             const scam = spot.getAttribute("data-type");
             const level = spot.getAttribute("data-level");
+            const stateId = spot.getAttribute("data-state");
 
             mapInfoCity.innerText = city;
             mapInfoScam.innerText = scam;
-            
+
             if (level === 'High') {
                 mapInfoRisk.innerText = "Critical Risk (85%)";
                 mapInfoRisk.className = "badge-risk high";
@@ -1686,15 +1733,12 @@ function initHeatMap() {
             }
 
             mapDetailCard.style.display = "block";
-            
-            // Remove previous active outline
-            document.querySelectorAll(".map-region-path").forEach(r => r.classList.remove("active"));
-            
-            // Highlight region path dynamically
-            const region = spot.getAttribute("data-region").toLowerCase();
-            const targetRegion = document.getElementById(`region-${region}`);
-            if (targetRegion) {
-                targetRegion.classList.add("active");
+
+            // Highlight the corresponding state outline
+            statePaths.forEach(p => p.classList.remove("active"));
+            const targetState = document.getElementById(`state-${stateId}`);
+            if (targetState) {
+                targetState.classList.add("active");
             }
         });
     });

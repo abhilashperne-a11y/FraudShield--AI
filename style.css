@@ -866,16 +866,16 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
 }
 
-.map-region-path {
+.map-region-path, .map-state-path {
     cursor: pointer;
     transition: var(--transition);
 }
 
-.map-region-path:hover {
+.map-region-path:hover, .map-state-path:hover {
     fill: #1d2d44;
 }
 
-.map-region-path.active {
+.map-region-path.active, .map-state-path.active {
     fill: #223a5e;
     stroke: var(--primary);
 }
