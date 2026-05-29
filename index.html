@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FraudShield AI is an intelligent real-time cybersecurity assistant designed to protect first-time digital users from phishing, scams, and financial fraud.">
+    <meta name="author" content="FraudShield Team">
+    <title>FraudShield AI - Smart Cybersecurity Command Center</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Cyber Security Auth Portal Overlay -->
+    <div id="auth-modal">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-shield">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4M12 16h.01" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h2 class="auth-title">FraudShield <span class="text-gradient">AI</span></h2>
+                <p class="auth-subtitle">Verify identity to initialize local defense systems</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tab-login-btn">Sign In</button>
+                <button class="auth-tab-btn" id="tab-signup-btn">Create Profile</button>
+            </div>
+
+            <!-- Error and Success Banners -->
+            <div class="auth-error-box" id="auth-error">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg>
+                <span id="auth-error-text">Incorrect Security PIN.</span>
+            </div>
+            <div class="auth-success-box" id="auth-success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                <span id="auth-success-text">Profile created!</span>
+            </div>
+
+            <!-- Sign In Form -->
+            <form id="login-form" class="auth-form active" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label class="form-label" for="login-name">Profile Full Name</label>
+                    <div class="input-with-icon">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <input type="text" id="login-name" class="form-input text-bold" placeholder="e.g. Amit Kumar" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="login-pin">6-Digit Security PIN</label>
+                    <div class="input-with-icon">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="login-pin" class="form-input text-bold" maxlength="6" pattern="\d{6}" placeholder="•••••" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-auth btn-full" id="btn-login-submit">
+                    Initialize Secure Shield
+                </button>
+                <div class="auth-recovery-hint">
+                    <a class="auth-recovery-link" id="btn-forgot-pin">Forgot Security PIN?</a>
+                </div>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="signup-form" class="auth-form" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label class="form-label" for="signup-name">Your Full Name</label>
+                    <div class="input-with-icon">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <input type="text" id="signup-name" class="form-input text-bold" placeholder="e.g. Amit Kumar" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-pin">Choose 6-Digit PIN</label>
+                    <div class="input-with-icon">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="signup-pin" class="form-input text-bold" maxlength="6" pattern="\d{6}" placeholder="e.g. 123456" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-recovery">Recovery Answer (Favorite Teacher/Hero)</label>
+                    <div class="input-with-icon">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01" stroke-linecap="round"/></svg>
+                        <input type="text" id="signup-recovery" class="form-input" placeholder="Recovery answer for PIN resets" required>
+                    </div>
+                    <small class="form-help">Used to safely recover your profile PIN if forgotten.</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Default Language</label>
+                    <select id="signup-lang" class="form-input">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी (Hindi)</option>
+                        <option value="ml">മലയാളം (Malayalam)</option>
+                        <option value="ta">தமிழ் (Tamil)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-auth btn-full" id="btn-signup-submit">
+                    Create Guard Profile
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Global Shared SVG Definitions (Always visible to avoid browser display:none gradient bugs) -->
+    <svg width="0" height="0" style="position: absolute; pointer-events: none; visibility: hidden;">
+        <defs>
+            <linearGradient id="gauge-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#00e478" />
+                <stop offset="50%" stop-color="#f77f00" />
+                <stop offset="100%" stop-color="#ff0055" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-shield">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4M12 16h.01" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="logo-text">FraudShield <span class="logo-highlight">AI</span></h1>
+                    <span class="logo-subtext">Guardians of Digital Trust</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-tab="dashboard" id="btn-tab-dashboard">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                    <span>Security Hub</span>
+                </button>
+                <button class="nav-btn" data-tab="transaction" id="btn-tab-transaction">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 14h2"/></svg>
+                    <span>Transaction Analyzer</span>
+                </button>
+                <button class="nav-btn" data-tab="scanners" id="btn-tab-scanners">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    <span>Link &amp; SMS Scanner</span>
+                </button>
+                <button class="nav-btn" data-tab="voice" id="btn-tab-voice">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+                    <span>Voice Safety AI</span>
+                </button>
+                <button class="nav-btn" data-tab="behavior" id="btn-tab-behavior">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                    <span>Behavioral Guardian</span>
+                </button>
+                <button class="nav-btn" data-tab="education" id="btn-tab-education">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <span>Fraud Academy</span>
+                </button>
+                <button class="nav-btn text-danger" data-tab="emergency" id="btn-tab-emergency">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg>
+                    <span>Emergency Desk</span>
+                </button>
+            </nav>
+
+            <div class="user-status-card">
+                <div class="user-status-main">
+                    <div class="avatar-status online"></div>
+                    <div class="status-info">
+                        <div class="status-name" id="user-name-display">Amit Kumar</div>
+                        <div class="status-label">Device Secure</div>
+                    </div>
+                </div>
+                <button class="btn-logout" id="btn-logout" title="Lock Profile / Sign Out">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-bar">
+                <div class="welcome-section">
+                    <div class="greeting-time" id="live-clock">Friday, 11:53 PM</div>
+                    <h2 class="welcome-heading">Welcome Back, <span class="text-gradient">Amit</span></h2>
+                </div>
+                <div class="top-actions">
+                    <span class="api-badge inactive" id="api-status-badge">Offline Mode</span>
+                    <button class="badge-status-pill secure" id="system-status-pill">
+                        <span class="pulse-dot green"></span>
+                        <span>Shield Active</span>
+                    </button>
+                    <button class="icon-btn" id="btn-api-settings" title="API Settings — Connect AI Services">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </button>
+                    <!-- Settings / Demo Helper -->
+                    <button class="icon-btn" id="btn-demo-trigger" title="Simulate Threat Alert">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-body">
+                
+                <!-- TAB 1: SECURITY COMMAND CENTER / DASHBOARD -->
+                <section class="tab-pane active" id="pane-dashboard">
+                    <!-- Quick Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card border-emerald">
+                            <div class="stat-header">
+                                <span class="stat-title">Transactions Secured</span>
+                                <div class="stat-icon bg-emerald-trans">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="emerald" stroke-width="2" class="w-6 h-6"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                            </div>
+                            <div class="stat-value font-display" id="stat-secured-count">48</div>
+                            <div class="stat-trend green">↑ 100% Phishing Free</div>
+                        </div>
+
+                        <div class="stat-card border-amber">
+                            <div class="stat-header">
+                                <span class="stat-title">Scam Threats Blocked</span>
+                                <div class="stat-icon bg-amber-trans">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="amber" stroke-width="2" class="w-6 h-6"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                </div>
+                            </div>
+                            <div class="stat-value font-display" id="stat-blocked-count">12</div>
+                            <div class="stat-trend amber">🛡 Zero Losses Reported</div>
+                        </div>
+
+                        <div class="stat-card border-cyber">
+                            <div class="stat-header">
+                                <span class="stat-title">Security Score</span>
+                                <div class="stat-icon bg-cyber-trans">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" class="w-6 h-6"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                                </div>
+                            </div>
+                            <div class="stat-value font-display text-gradient" id="stat-security-score">95%</div>
+                            <div class="stat-trend green">★★★★★ Excellent Standing</div>
+                        </div>
+                    </div>
+
+                    <!-- Main Grid Map and Ticker -->
+                    <div class="grid-2col">
+                        <!-- Heatmap Card -->
+                        <div class="card glass-card">
+                            <div class="card-header">
+                                <div>
+                                    <h3 class="card-title">Live Fraud Risk Heat Map</h3>
+                                    <p class="card-subtitle">Real-time geo-analysis of regional scam spikes</p>
+                                </div>
+                                <div class="badge-status-pill danger animate-pulse">Live Ticker</div>
+                            </div>
+                            <div class="map-container">
+                                <!-- High Tech Custom SVG Indian Map representation -->
+                                <svg id="india-fraud-map" viewBox="0 0 400 450" class="high-tech-map">
+                                    <!-- Simple styled path grids representing Indian sub-regions -->
+                                    <g class="map-regions" stroke="#1d2d44" stroke-width="1.5" fill="#0d1b2a">
+                                        <!-- North -->
+                                        <path d="M 120,40 L 190,10 L 230,50 L 200,100 L 140,80 Z" id="region-north" class="map-region-path"/>
+                                        <!-- West -->
+                                        <path d="M 60,150 L 140,160 L 150,230 L 70,250 L 50,190 Z" id="region-west" class="map-region-path"/>
+                                        <!-- Central -->
+                                        <path d="M 140,80 L 200,100 L 230,170 L 150,230 L 130,150 Z" id="region-central" class="map-region-path"/>
+                                        <!-- East -->
+                                        <path d="M 230,50 L 320,80 L 350,150 L 280,210 L 200,100 Z" id="region-east" class="map-region-path"/>
+                                        <!-- Northeast -->
+                                        <path d="M 320,80 L 390,90 L 370,140 L 310,130 Z" id="region-northeast" class="map-region-path"/>
+                                        <!-- South -->
+                                        <path d="M 150,230 L 230,170 L 250,280 L 200,420 L 130,320 Z" id="region-south" class="map-region-path"/>
+                                    </g>
+                                    
+                                    <!-- Animated Grid Overlay -->
+                                    <defs>
+                                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,242,254,0.03)" stroke-width="1"/>
+                                        </pattern>
+                                    </defs>
+                                    <rect width="100%" height="100%" fill="url(#grid)" pointer-events="none" />
+
+                                    <!-- Hotspots (Pulsing glowing dots for alerts) -->
+                                    <g id="map-hotspots">
+                                        <!-- Delhi -->
+                                        <g class="hotspot pulse-red" transform="translate(180, 80)" data-region="North" data-city="Delhi NCR" data-type="OTP Scam" data-level="High">
+                                            <circle r="18" fill="rgba(255, 0, 85, 0.15)" class="ping-circle" />
+                                            <circle r="6" fill="#ff0055" />
+                                        </g>
+                                        <!-- Mumbai -->
+                                        <g class="hotspot pulse-orange" transform="translate(95, 210)" data-region="West" data-city="Mumbai" data-type="Fake Electricity Bill" data-level="Medium">
+                                            <circle r="15" fill="rgba(247, 127, 0, 0.2)" class="ping-circle" />
+                                            <circle r="5" fill="#f77f00" />
+                                        </g>
+                                        <!-- Bangalore -->
+                                        <g class="hotspot pulse-red" transform="translate(170, 310)" data-region="South" data-city="Bengaluru" data-type="UPI QR Code Phishing" data-level="High">
+                                            <circle r="22" fill="rgba(255, 0, 85, 0.15)" class="ping-circle" />
+                                            <circle r="7" fill="#ff0055" />
+                                        </g>
+                                        <!-- Kolkata -->
+                                        <g class="hotspot pulse-green" transform="translate(290, 170)" data-region="East" data-city="Kolkata" data-type="Job Offer Scam" data-level="Low">
+                                            <circle r="12" fill="rgba(0, 228, 120, 0.2)" class="ping-circle" />
+                                            <circle r="4" fill="#00e478" />
+                                        </g>
+                                        <!-- Kochi -->
+                                        <g class="hotspot pulse-orange" transform="translate(150, 370)" data-region="South" data-city="Kochi" data-type="FedEx Parcel Scam" data-level="Medium">
+                                            <circle r="15" fill="rgba(247, 127, 0, 0.2)" class="ping-circle" />
+                                            <circle r="5" fill="#f77f00" />
+                                        </g>
+                                    </g>
+                                </svg>
+                                
+                                <div class="map-legend">
+                                    <div class="legend-item"><span class="legend-dot bg-danger"></span> High Threat</div>
+                                    <div class="legend-item"><span class="legend-dot bg-warning"></span> Medium Threat</div>
+                                    <div class="legend-item"><span class="legend-dot bg-success"></span> Safe / Under Watch</div>
+                                </div>
+
+                                <!-- Floating Map Card Info -->
+                                <div class="map-hover-info" id="map-detail-card">
+                                    <h4 class="info-title" id="map-info-city">Bengaluru</h4>
+                                    <div class="info-row">
+                                        <span>Primary Threat:</span>
+                                        <strong id="map-info-scam">UPI QR Code</strong>
+                                    </div>
+                                    <div class="info-row">
+                                        <span>Trend Level:</span>
+                                        <span class="badge-risk high" id="map-info-risk">High Risk (82%)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Real-time scam feed -->
+                        <div class="card glass-card scrollable-card flex-col">
+                            <div class="card-header">
+                                <div>
+                                    <h3 class="card-title">Real-Time Threat Stream</h3>
+                                    <p class="card-subtitle">Active reported incidents across the network</p>
+                                </div>
+                            </div>
+                            <div class="threat-feed" id="threat-stream-list">
+                                <!-- Dynamically generated high fidelity log rows will live here -->
+                                <div class="threat-row border-left-danger">
+                                    <div class="threat-row-header">
+                                        <span class="threat-badge bg-danger">Critical</span>
+                                        <span class="threat-time">Just Now</span>
+                                    </div>
+                                    <p class="threat-desc">OTP fraud attempt bypassed at Mumbai. Target: Elderly bank user. Status: <strong>Blocked</strong></p>
+                                </div>
+                                <div class="threat-row border-left-warning">
+                                    <div class="threat-row-header">
+                                        <span class="threat-badge bg-warning">Warning</span>
+                                        <span class="threat-time">2 mins ago</span>
+                                    </div>
+                                    <p class="threat-desc">Malicious payment link detected targeting `amaz0n-win-prize.in`. Status: <strong>Blacklisted</strong></p>
+                                </div>
+                                <div class="threat-row border-left-info">
+                                    <div class="threat-row-header">
+                                        <span class="threat-badge bg-info">Prevented</span>
+                                        <span class="threat-time">10 mins ago</span>
+                                    </div>
+                                    <p class="threat-desc">Impersonation call detected in Kerala. Safe guidance vocalized to user. Status: <strong>Mitigated</strong></p>
+                                </div>
+                                <div class="threat-row border-left-danger">
+                                    <div class="threat-row-header">
+                                        <span class="threat-badge bg-danger">Critical</span>
+                                        <span class="threat-time">15 mins ago</span>
+                                    </div>
+                                    <p class="threat-desc">Anomalous transfer of ₹45,000 flagged at midnight (Delhi NCR). Status: <strong>Blocked until verification</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Innovation Showcase: Dynamic AI Risk Meter Widget on Dashboard -->
+                    <div class="card glass-card mt-6">
+                        <div class="grid-2col align-center">
+                            <div>
+                                <h3 class="text-gradient font-display text-2xl font-bold">Try the AI Security Engine Right Now</h3>
+                                <p class="mt-2 text-secondary text-sm">
+                                    FraudShield protects first-time users by putting a defense grid between you and scammers. Click on the <strong>Transaction Analyzer</strong> or <strong>Link &amp; SMS Scanner</strong> tabs to test real-time prevention, or scan this suspicious transaction example below.
+                                </p>
+                                <div class="quick-examples-buttons mt-4">
+                                    <button class="btn btn-secondary mr-2" id="quick-demo-1">Scan Lottery Message</button>
+                                    <button class="btn btn-secondary" id="quick-demo-2">Analyze Midnight Payment</button>
+                                </div>
+                            </div>
+                            <div class="flex-center flex-col">
+                                <div class="interactive-gauge-container">
+                                    <!-- High fidelity semi-circular meter -->
+                                    <div class="gauge-base">
+                                        <svg width="220" height="120" class="gauge-svg">
+                                            <circle cx="110" cy="110" r="90" fill="none" stroke="#1d2d44" stroke-width="14" stroke-dasharray="282.7" stroke-dashoffset="0" stroke-linecap="round" />
+                                            <circle cx="110" cy="110" r="90" fill="none" stroke="url(#gauge-grad)" stroke-width="14" stroke-dasharray="282.7" stroke-dashoffset="282.7" stroke-linecap="round" id="gauge-progress-circle" />
+                                        </svg>
+                                        <div class="gauge-needle" id="dashboard-gauge-needle" style="transform: rotate(-90deg);"></div>
+                                        <div class="gauge-text">
+                                            <span class="gauge-value" id="dashboard-gauge-val">0%</span>
+                                            <span class="gauge-label" id="dashboard-gauge-status">SAFE</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gauge-verdict text-center" id="dashboard-gauge-reason">
+                                    Status: All shields fully operational. Select a demo scanner module to begin.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: SMART TRANSACTION RISK ANALYZER -->
+                <section class="tab-pane" id="pane-transaction">
+                    <div class="grid-2col">
+                        <!-- Transaction form card -->
+                        <div class="card glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Module 1: Transaction Analyzer</h3>
+                                <p class="card-subtitle">Verify recipient safety before moving money</p>
+                            </div>
+                            <form id="transaction-risk-form" onsubmit="event.preventDefault();">
+                                <div class="form-group">
+                                    <label class="form-label" for="upi-id">Recipient UPI ID or Account Number</label>
+                                    <div class="input-with-icon">
+                                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                        <input type="text" id="upi-id" class="form-input" placeholder="e.g. rajesh993@ybl or 9827390123" required>
+                                    </div>
+                                    <small class="form-help">Enter the mobile, UPI address, or Bank account you are transferring to.</small>
+                                </div>
+
+                                <div class="grid-2col gap-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="payment-amount">Payment Amount (₹)</label>
+                                        <div class="input-with-icon">
+                                            <span class="input-symbol">₹</span>
+                                            <input type="number" id="payment-amount" class="form-input text-bold" placeholder="e.g. 15000" min="1" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="tx-time">Time of Payment</label>
+                                        <input type="time" id="tx-time" class="form-input" value="12:00">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Recipient Connection History</label>
+                                    <div class="segmented-control">
+                                        <label class="control-label">
+                                            <input type="radio" name="tx-recipient-type" value="new" checked>
+                                            <span class="control-btn">New Account / Unknown</span>
+                                        </label>
+                                        <label class="control-label">
+                                            <input type="radio" name="tx-recipient-type" value="frequent">
+                                            <span class="control-btn">Frequent Recipient</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn btn-primary btn-full mt-4" id="btn-analyze-transaction">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                                    Run Security Pre-Check
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Analysis results panel -->
+                        <div class="card glass-card flex-col align-center justify-between border-pulse" id="transaction-results-card">
+                            <div class="card-header text-center w-full">
+                                <h3 class="card-title">AI Transaction Risk Meter</h3>
+                                <p class="card-subtitle">Real-time risk scoring and safety recommendations</p>
+                            </div>
+                            
+                            <!-- Speedometer container -->
+                            <div class="interactive-gauge-container py-6">
+                                <div class="gauge-base">
+                                    <svg width="220" height="120" class="gauge-svg">
+                                        <circle cx="110" cy="110" r="90" fill="none" stroke="#1d2d44" stroke-width="14" stroke-dasharray="282.7" stroke-dashoffset="0" stroke-linecap="round" />
+                                        <circle cx="110" cy="110" r="90" fill="none" stroke="url(#gauge-grad)" stroke-width="14" stroke-dasharray="282.7" stroke-dashoffset="282.7" stroke-linecap="round" id="tx-gauge-progress" />
+                                    </svg>
+                                    <div class="gauge-needle" id="tx-gauge-needle" style="transform: rotate(-90deg);"></div>
+                                    <div class="gauge-text">
+                                        <span class="gauge-value" id="tx-risk-score-value">0%</span>
+                                        <span class="gauge-label safe" id="tx-risk-badge">SAFE</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Explainable AI Reasons Card -->
+                            <div class="explainable-ai-panel w-full" id="tx-explanation-panel">
+                                <h4 class="explainable-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                                    Explainable AI Breakdown:
+                                </h4>
+                                <div class="explainable-content" id="tx-explanation-details">
+                                    <p class="text-secondary text-sm">Enter transaction parameters on the left and click "Run Security Pre-Check" to analyze structural risks.</p>
+                                </div>
+                            </div>
+
+                            <!-- Warning Block / Actions -->
+                            <div class="w-full mt-4" id="tx-actions-block" style="display: none;">
+                                <div class="warning-alert-box bg-rose-trans border-rose mb-3">
+                                    <div class="alert-header font-bold text-rose flex-center gap-2">
+                                        <svg class="alert-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg>
+                                        <span>CRITICAL PAYMENT WARNING</span>
+                                    </div>
+                                    <p class="alert-text mt-1 text-sm text-secondary">Our AI suggests this might be a phishing or cyber impersonation trap. Do not share OTPs, and never proceed without visual or vocal verification of this exact receiver.</p>
+                                </div>
+                                <div class="grid-2col gap-2">
+                                    <button class="btn btn-danger btn-full" id="btn-tx-abort">Cancel Payment</button>
+                                    <button class="btn btn-secondary btn-full" id="btn-tx-verify">Call Cyber Desk</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: LINK & MESSAGE SCANNERS -->
+                <section class="tab-pane" id="pane-scanners">
+                    <div class="grid-2col">
+                        <!-- Phishing Link Scanner (Module 2) -->
+                        <div class="card glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Module 2: AI Phishing Link Detector</h3>
+                                <p class="card-subtitle">Verify dynamic domain reputations and check fake links</p>
+                            </div>
+                            <div class="scanner-container">
+                                <div class="form-group">
+                                    <label class="form-label" for="phishing-url">Paste Website URL to Scan</label>
+                                    <input type="text" id="phishing-url" class="form-input text-bold" placeholder="e.g. https://amaz0n-mega-win-offers.net/lottery">
+                                    <div class="quick-scans-list mt-2">
+                                        <span class="tag-pill cursor-pointer" onclick="document.getElementById('phishing-url').value = 'https://amaz0n-offer-win.com'">amaz0n-offer-win.com</span>
+                                        <span class="tag-pill cursor-pointer" onclick="document.getElementById('phishing-url').value = 'https://sbi-secure-banking-login.in'">sbi-secure-banking-login.in</span>
+                                        <span class="tag-pill cursor-pointer" onclick="document.getElementById('phishing-url').value = 'https://www.google.com'">google.com (Safe)</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-scan-link">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+                                    Audit Link Authenticity
+                                </button>
+                                
+                                <div class="scanning-loader mt-4" id="link-scanning-loader" style="display: none;">
+                                    <div class="spinner"></div>
+                                    <span>AI Engine cross-checking databases, domain registry &amp; SSL trust signals...</span>
+                                </div>
+
+                                <div class="scan-result-card mt-4" id="link-scan-result" style="display: none;">
+                                    <!-- Dynamic HTML output filled by JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SMS/Scam Message Analyzer (Module 3) -->
+                        <div class="card glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Module 3: Scam Message Analyzer</h3>
+                                <p class="card-subtitle">Evaluate SMS, WhatsApp, and Emails for urgency or deceit markers</p>
+                            </div>
+                            <div class="scanner-container">
+                                <div class="form-group">
+                                    <label class="form-label" for="scam-message-text">Message / SMS / Email Text</label>
+                                    <textarea id="scam-message-text" rows="5" class="form-textarea" placeholder="Paste the message here (e.g. Congratulations! You won ₹5 Lakh. Click here immediately to claim...)"></textarea>
+                                    <div class="quick-scans-list mt-2">
+                                        <span class="tag-pill cursor-pointer" onclick="document.getElementById('scam-message-text').value = 'DEAR CUSTOMER, YOUR ELECTRICITY WILL BE CUT OFF AT 9:30 PM. CALL CUSTOMER CARE IMMEDIATELY AT 9827389102.'">Electricity Cut Warning</span>
+                                        <span class="tag-pill cursor-pointer" onclick="document.getElementById('scam-message-text').value = 'You have won a lottery of ₹50,00,000. Send ₹5,000 registration fees to UPI: prize@ybl to claim.'">₹50L Lottery prize</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-scan-message">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                    Analyze Scam Probability
+                                </button>
+                                
+                                <div class="scanning-loader mt-4" id="msg-scanning-loader" style="display: none;">
+                                    <div class="spinner"></div>
+                                    <span>AI Engine performing lexical check and NLP indicator audits...</span>
+                                </div>
+
+                                <div class="scan-result-card mt-4" id="msg-scan-result" style="display: none;">
+                                    <!-- Dynamic HTML output filled by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 4: VOICE SAFETY AI -->
+                <section class="tab-pane" id="pane-voice">
+                    <div class="grid-2col">
+                        <!-- Voice Control Card -->
+                        <div class="card glass-card flex-col align-center justify-between">
+                            <div class="card-header text-center w-full">
+                                <h3 class="card-title">Module 4: Voice Safety Assistant</h3>
+                                <p class="card-subtitle">Elderly-friendly security agent answering voice questions</p>
+                            </div>
+                            
+                            <!-- Large interactive audio waveform and microphone button -->
+                            <div class="voice-assistant-core my-6 text-center">
+                                <div class="voice-avatar-glow" id="voice-avatar">
+                                    <div class="inner-core">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" class="w-8 h-8">
+                                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/>
+                                        </svg>
+                                    </div>
+                                    <!-- Orbiting high-tech bars -->
+                                    <div class="orbit-ring"></div>
+                                </div>
+
+                                <div class="waveform-animation mt-6" id="audio-waveform">
+                                    <span class="wave-bar bar-1"></span>
+                                    <span class="wave-bar bar-2"></span>
+                                    <span class="wave-bar bar-3"></span>
+                                    <span class="wave-bar bar-4"></span>
+                                    <span class="wave-bar bar-5"></span>
+                                    <span class="wave-bar bar-6"></span>
+                                    <span class="wave-bar bar-7"></span>
+                                </div>
+
+                                <div class="voice-speech-text mt-4 font-bold text-gradient" id="voice-recognized-bubble">
+                                    "Tap the button below and ask me if a payment is safe..."
+                                </div>
+                            </div>
+
+                            <!-- Selector for native language -->
+                            <div class="language-selection w-full">
+                                <label class="form-label text-center">Language Support (मातृभाषा)</label>
+                                <div class="segmented-control language-grid">
+                                    <label class="control-label">
+                                        <input type="radio" name="voice-lang" value="en" checked>
+                                        <span class="control-btn font-bold">English</span>
+                                    </label>
+                                    <label class="control-label">
+                                        <input type="radio" name="voice-lang" value="hi">
+                                        <span class="control-btn font-bold">हिन्दी (Hindi)</span>
+                                    </label>
+                                    <label class="control-label">
+                                        <input type="radio" name="voice-lang" value="ml">
+                                        <span class="control-btn font-bold">മലയാളം (Mal.)</span>
+                                    </label>
+                                    <label class="control-label">
+                                        <input type="radio" name="voice-lang" value="ta">
+                                        <span class="control-btn font-bold">தமிழ் (Tamil)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Text Input Fallback simulator -->
+                            <div class="form-group w-full mt-4" style="margin-bottom: 0.5rem;">
+                                <label class="form-label" for="voice-text-input">Type Question directly (mic fallback):</label>
+                                <div class="input-with-icon">
+                                    <input type="text" id="voice-text-input" class="form-input" style="padding-right: 75px;" placeholder="e.g. Is this lotto link safe?">
+                                    <button class="btn btn-primary text-xs" id="btn-voice-send" style="position: absolute; right: 4px; padding: 0.5rem 1rem; height: 80%; top: 10%;">Ask</button>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary btn-full mt-4" id="btn-trigger-voice-mic">
+                                <span class="flex-center gap-2">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+                                    <span id="voice-btn-text">Start Listening</span>
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- Simulated vocal feedback and conversational chat logs -->
+                        <div class="card glass-card scrollable-card flex-col justify-between">
+                            <div class="card-header">
+                                <h3 class="card-title">Vocal Advice Logs</h3>
+                                <p class="card-subtitle">Real-time transcripts of vocal cybersecurity recommendations</p>
+                            </div>
+                            <div class="vocal-chat-log" id="voice-chat-transcript">
+                                <div class="chat-bubble assistant">
+                                    <div class="chat-sender font-bold">FraudShield Voice AI</div>
+                                    <div class="chat-text">Hello Amit! I am your Voice Security Assistant. You can speak to me or select a common concern below. I will guide you verbally in your selected language.</div>
+                                </div>
+                            </div>
+                            <div class="suggested-queries mt-4">
+                                <p class="text-xs text-secondary mb-2">Popular Inquiries:</p>
+                                <div class="flex-wrap gap-2">
+                                    <button class="tag-pill text-xs font-bold" onclick="simulateVoiceQuery('safe')">Is this transaction safe?</button>
+                                    <button class="tag-pill text-xs font-bold" onclick="simulateVoiceQuery('lottery')">I got a call saying I won a prize!</button>
+                                    <button class="tag-pill text-xs font-bold" onclick="simulateVoiceQuery('electricity')">My power will be disconnected today?</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: BEHAVIORAL GUARDIAN -->
+                <section class="tab-pane" id="pane-behavior">
+                    <div class="grid-2col">
+                        <!-- Normal behavior patterns vs anomalies configuration -->
+                        <div class="card glass-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Module 5: Behavioral Pattern &amp; Anomalies</h3>
+                                <p class="card-subtitle">Continuous background profiling of payment velocity and timing</p>
+                            </div>
+                            <div class="pattern-configurator">
+                                <div class="form-group">
+                                    <label class="form-label d-flex justify-between">
+                                        <span>Normal Spending Window:</span>
+                                        <strong class="text-gradient">08:00 AM - 10:00 PM</strong>
+                                    </label>
+                                    <div class="visual-time-bar">
+                                        <div class="active-bar" style="left: 33%; width: 58%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label d-flex justify-between">
+                                        <span>Usual Single Payment Limit:</span>
+                                        <strong class="text-gradient" id="spending-limit-display">₹2,000</strong>
+                                    </label>
+                                    <input type="range" class="form-range" id="slider-spending-limit" min="500" max="10000" step="500" value="2000" oninput="document.getElementById('spending-limit-display').innerText = '₹' + Number(this.value).toLocaleString('en-IN')">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Simulate Behavior Scenarios</label>
+                                    <div class="grid-2col gap-2">
+                                        <button class="btn btn-secondary text-xs py-2 px-3 text-center" id="btn-sim-behavior-safe">
+                                            Normal: ₹500 grocery payment at 12:00 PM
+                                        </button>
+                                        <button class="btn btn-danger text-xs py-2 px-3 text-center" id="btn-sim-behavior-anomaly">
+                                            Anomaly: ₹25,000 transfer at 12:30 AM (Midnight)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="warning-alert-box bg-cyber-trans border-cyber mt-4">
+                                    <div class="alert-header font-bold text-cyber flex-center gap-2">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="alert-icon-svg"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                                        <span>How Behavioral Guard Works:</span>
+                                    </div>
+                                    <p class="alert-text mt-1 text-sm text-secondary">By silently tracking device telemetry, location velocity, and historic UPI boundaries, our local AI detects high-velocity transfers before they go through, stopping malware or automated screen-share grabs from draining wallets.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive behavioral graphs and indicators -->
+                        <div class="card glass-card flex-col align-center justify-between" id="behavioral-visualizer-card">
+                            <div class="card-header text-center w-full">
+                                <h3 class="card-title">Behavioral Risk Radar</h3>
+                                <p class="card-subtitle">Anomalous deviations plotted vs. standard limits</p>
+                            </div>
+
+                            <div class="interactive-gauge-container py-6">
+                                <div class="gauge-base">
+                                    <svg width="220" height="120" class="gauge-svg">
+                                        <circle cx="110" cy="110" r="90" fill="none" stroke="#1d2d44" stroke-width="14" stroke-dasharray="282.7" stroke-dashoffset="0" stroke-linecap="round" />
+                                        <circle cx="110" cy="110" r="90" fill="none" stroke="url(#gauge-grad)" stroke-width="14" stroke-dasharray="282.7" stroke-dashoffset="282.7" stroke-linecap="round" id="behavior-gauge-progress" />
+                                    </svg>
+                                    <div class="gauge-needle" id="behavior-gauge-needle" style="transform: rotate(-90deg);"></div>
+                                    <div class="gauge-text">
+                                        <span class="gauge-value" id="behavior-risk-value">0%</span>
+                                        <span class="gauge-label safe" id="behavior-risk-badge">NORMAL</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="explainable-ai-panel w-full" id="behavioral-indicators">
+                                <h4 class="explainable-title">Telemetry Checklist &amp; Status:</h4>
+                                <ul class="telemetry-checklist" id="behavior-status-list">
+                                    <li class="checked">✅ Transaction Amount inside normal boundaries</li>
+                                    <li class="checked">✅ Timing complies with normal diurnal cycle</li>
+                                    <li class="checked">✅ IP Location velocity verified</li>
+                                    <li class="checked">✅ Biometric interaction pattern matching</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 6: FRAUD EDUCATION CENTER (ACADEMY) -->
+                <section class="tab-pane" id="pane-education">
+                    <div class="grid-2col">
+                        <!-- Module 6: Fraud Education slides -->
+                        <div class="card glass-card flex-col justify-between">
+                            <div class="card-header">
+                                <h3 class="card-title">Module 6: Fraud Prevention Academy</h3>
+                                <p class="card-subtitle">Learn the 5 critical scam categories in simple language</p>
+                            </div>
+                            
+                            <!-- Slide Carousel -->
+                            <div class="education-carousel" id="edu-carousel">
+                                <div class="carousel-slide active" data-slide="0">
+                                    <div class="slide-header">
+                                        <span class="slide-badge bg-rose-trans text-rose">Scam Type #1</span>
+                                        <h4 class="slide-title">OTP Fraud (ओटीपी धोखाधड़ी)</h4>
+                                    </div>
+                                    <p class="slide-text">
+                                        <strong>What is it:</strong> Scammers call pretending to be your bank manager, customer support, or electricity board and ask for a 4 or 6 digit One-Time Password sent to your phone.
+                                    </p>
+                                    <div class="warning-alert-box border-rose bg-rose-trans mt-4">
+                                        <strong>Crucial Rule:</strong> Banks NEVER ask for OTP. Sharing OTP is like handing the keys of your steel locker to a thief.
+                                    </div>
+                                </div>
+
+                                <div class="carousel-slide" data-slide="1">
+                                    <div class="slide-header">
+                                        <span class="slide-badge bg-amber-trans text-amber">Scam Type #2</span>
+                                        <h4 class="slide-title">UPI QR Code Scams (क्यूआर कोड घोटाला)</h4>
+                                    </div>
+                                    <p class="slide-text">
+                                        <strong>What is it:</strong> The fraudster sends you a QR code on WhatsApp saying "Scan this code to receive lottery prize money in your account."
+                                    </p>
+                                    <div class="warning-alert-box border-amber bg-amber-trans mt-4">
+                                        <strong>Crucial Rule:</strong> Scanning a QR Code and entering your UPI PIN always DEDUCTS money from your account. You NEVER need to enter PIN to receive money!
+                                    </div>
+                                </div>
+
+                                <div class="carousel-slide" data-slide="2">
+                                    <div class="slide-header">
+                                        <span class="slide-badge bg-cyan-trans text-cyber">Scam Type #3</span>
+                                        <h4 class="slide-title">Fake Customer Care Numbers</h4>
+                                    </div>
+                                    <p class="slide-text">
+                                        <strong>What is it:</strong> When searching Google for customer care numbers of Amazon, Paytm, or courier services, fraud numbers appear. They ask you to install apps like <i>AnyDesk</i> or <i>TeamViewer</i>.
+                                    </p>
+                                    <div class="warning-alert-box border-cyber bg-cyan-trans mt-4">
+                                        <strong>Crucial Rule:</strong> These apps allow hackers to see and control your mobile phone. Never install screen-sharing apps on advice of strangers.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-nav flex-between mt-6">
+                                <button class="btn btn-secondary px-4 py-2" id="btn-prev-slide">← Previous</button>
+                                <span class="carousel-indicator" id="edu-slide-num">1 of 3</span>
+                                <button class="btn btn-secondary px-4 py-2" id="btn-next-slide">Next →</button>
+                            </div>
+                        </div>
+
+                        <!-- Gamified Cybersecurity Quiz -->
+                        <div class="card glass-card flex-col justify-between" id="quiz-card">
+                            <div class="card-header flex-between">
+                                <div>
+                                    <h3 class="card-title">Interactive Safety Quiz</h3>
+                                    <p class="card-subtitle">Earn your Security Badge &amp; double your immunity</p>
+                                </div>
+                                <div class="quiz-badge-award" id="quiz-score-badge">LVL 1</div>
+                            </div>
+
+                            <!-- Quiz Content Area -->
+                            <div class="quiz-container py-4" id="quiz-content">
+                                <div class="quiz-progress-bar">
+                                    <div class="progress-fill" id="quiz-progress-fill" style="width: 25%"></div>
+                                </div>
+                                <h4 class="quiz-question mt-4 font-bold text-lg" id="quiz-question-text">Q: A person calls claiming to be a gas officer and asks for the OTP to update your subsidy. What should you do?</h4>
+                                <div class="quiz-options mt-4" id="quiz-options-box">
+                                    <!-- Dynamic Options -->
+                                </div>
+                            </div>
+
+                            <div class="quiz-verdict-box mt-4 border-pulse" id="quiz-verdict-banner" style="display: none;">
+                                <!-- Dynamic verdict feedback -->
+                            </div>
+
+                            <button class="btn btn-primary btn-full mt-4" id="btn-quiz-action" disabled>Submit Answer</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 7: EMERGENCY FRAUD REPORTING (EMERGENCY DESK) -->
+                <section class="tab-pane" id="pane-emergency">
+                    <div class="card glass-card border-rose-trans">
+                        <div class="card-header text-center">
+                            <span class="badge-status-pill danger inline-block mb-2">Immediate Defense Desk</span>
+                            <h3 class="card-title text-2xl font-bold text-gradient">Module 7: Emergency Fraud Counter-Measures</h3>
+                            <p class="card-subtitle">Has a fraud occurred? Activate emergency protocols in one-click.</p>
+                        </div>
+
+                        <div class="emergency-grid mt-6">
+                            <!-- Quick action buttons -->
+                            <div class="emergency-action-card bg-rose-trans border-rose">
+                                <div class="emergency-icon-circle bg-rose">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                </div>
+                                <h4 class="emergency-action-title font-bold text-rose">Call National Helpline</h4>
+                                <p class="text-xs text-secondary mt-1">Dial 1930 directly to register immediate financial holds with the RBI Cyber Cell.</p>
+                                <a href="tel:1930" class="btn btn-danger text-xs mt-3 btn-full">Call 1930 Now</a>
+                            </div>
+
+                            <div class="emergency-action-card bg-amber-trans border-amber">
+                                <div class="emergency-icon-circle bg-amber">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                </div>
+                                <h4 class="emergency-action-title font-bold text-amber">Freeze UPI Account</h4>
+                                <p class="text-xs text-secondary mt-1">Locks UPI ID transfers on Google Pay, PhonePe &amp; Paytm immediately.</p>
+                                <button class="btn btn-warning text-xs mt-3 btn-full" id="btn-emergency-freeze">Freeze UPI Instantly</button>
+                            </div>
+
+                            <div class="emergency-action-card bg-cyan-trans border-cyber">
+                                <div class="emergency-icon-circle bg-cyber">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                </div>
+                                <h4 class="emergency-action-title font-bold text-cyber">Block Spam Number</h4>
+                                <p class="text-xs text-secondary mt-1">Add attacker's mobile/UPI ID to local and global fraud lists.</p>
+                                <button class="btn btn-primary text-xs mt-3 btn-full" id="btn-emergency-block">Block and Report</button>
+                            </div>
+                        </div>
+
+                        <!-- Incident Report Generator -->
+                        <div class="incident-generator-box mt-6 p-6 bg-slate-trans border-slate rounded-lg">
+                            <h4 class="font-bold text-gradient text-lg flex-center gap-2">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+                                Automated Cyber Incident Report Builder
+                            </h4>
+                            <p class="text-xs text-secondary mt-1">Enter incident specifications to compile an official cybercell complaint document.</p>
+                            
+                            <form id="incident-form" class="mt-4" onsubmit="event.preventDefault();">
+                                <div class="grid-2col gap-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="inc-victim">Victim's Full Name</label>
+                                        <input type="text" id="inc-victim" class="form-input text-bold" value="Amit Kumar">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="inc-scammer">Scammer's Phone / UPI ID</label>
+                                        <input type="text" id="inc-scammer" class="form-input" placeholder="e.g. 9827389102 or win-lottery@paytm">
+                                    </div>
+                                </div>
+
+                                <div class="grid-2col gap-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="inc-type">Type of Fraud</label>
+                                        <select id="inc-type" class="form-input">
+                                            <option value="OTP Phishing">OTP Phishing &amp; Hijack</option>
+                                            <option value="UPI QR Scam">UPI QR Code Scam</option>
+                                            <option value="Google Maps Fake Cust Care">Fake Google Customer Care No.</option>
+                                            <option value="Malicious Phishing Website">Malicious Link (Fake Bank Website)</option>
+                                            <option value="Behavioral Account Takeover">Anomalous Suspicious Transfer</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="inc-loss">Amount Transferred (₹)</label>
+                                        <input type="number" id="inc-loss" class="form-input" placeholder="e.g. 15000">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="inc-description">Detailed Incident Description</label>
+                                    <textarea id="inc-description" rows="3" class="form-textarea" placeholder="Provide extra details (e.g. received sms saying electricity cut, called back, they asked to download AnyDesk app...)"></textarea>
+                                </div>
+
+                                <button type="button" class="btn btn-primary btn-full mt-2" id="btn-generate-report">
+                                    Generate Official Incident PDF / Print Copy
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden Printable Report Layout -->
+    <div id="printable-report-area" class="print-only">
+        <!-- Will be dynamically filled when generating report -->
+    </div>
+
+    <!-- API Settings Modal -->
+    <div id="api-settings-modal" class="api-modal-overlay">
+        <div class="api-modal-card">
+            <div class="api-modal-header">
+                <div>
+                    <h3 class="text-gradient" style="font-size:1.3rem;font-weight:800;">⚙️ API Integration Settings</h3>
+                    <p class="text-secondary text-xs mt-1">Connect free AI services to supercharge threat detection</p>
+                </div>
+                <button class="api-modal-close" id="btn-close-api-settings">&times;</button>
+            </div>
+
+            <div class="api-keys-grid">
+                <!-- Gemini -->
+                <div class="api-key-row">
+                    <div class="api-key-info">
+                        <div class="api-key-label">
+                            <span class="api-status-dot inactive" id="status-gemini"></span>
+                            <strong>Google Gemini AI</strong>
+                        </div>
+                        <span class="text-xs text-secondary">Powers scam message analysis &amp; transaction AI reasoning</span>
+                    </div>
+                    <input type="password" id="input-gemini-key" class="api-key-input" placeholder="Paste Gemini API key here..." autocomplete="off">
+                    <a href="https://aistudio.google.com/apikey" target="_blank" class="api-help-link">Get free key →</a>
+                </div>
+
+                <!-- Safe Browsing -->
+                <div class="api-key-row">
+                    <div class="api-key-info">
+                        <div class="api-key-label">
+                            <span class="api-status-dot inactive" id="status-safebrowsing"></span>
+                            <strong>Google Safe Browsing</strong>
+                        </div>
+                        <span class="text-xs text-secondary">Real-time phishing &amp; malware URL database (10K calls/day free)</span>
+                    </div>
+                    <input type="password" id="input-safebrowsing-key" class="api-key-input" placeholder="Paste Safe Browsing API key here..." autocomplete="off">
+                    <a href="https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com" target="_blank" class="api-help-link">Get free key →</a>
+                </div>
+
+                <!-- VirusTotal -->
+                <div class="api-key-row">
+                    <div class="api-key-info">
+                        <div class="api-key-label">
+                            <span class="api-status-dot inactive" id="status-virustotal"></span>
+                            <strong>VirusTotal</strong>
+                        </div>
+                        <span class="text-xs text-secondary">Multi-engine URL scan with 70+ antivirus engines (500/day free)</span>
+                    </div>
+                    <input type="password" id="input-virustotal-key" class="api-key-input" placeholder="Paste VirusTotal API key here..." autocomplete="off">
+                    <a href="https://www.virustotal.com/gui/join-us" target="_blank" class="api-help-link">Get free key →</a>
+                </div>
+            </div>
+
+            <div class="api-modal-footer">
+                <p class="text-xs text-secondary" style="flex:1;">🔒 Keys are stored only in your browser's localStorage. Never sent to any third-party server.</p>
+                <button class="btn btn-primary" id="btn-save-api-keys">Save API Keys</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Local API Keys containing sensitive credentials
+.api-keys.md
+
+# OS generated files
+.DS_Store
+Thumbs.db
