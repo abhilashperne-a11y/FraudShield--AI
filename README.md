@@ -33,10 +33,9 @@ Traditional antivirus/firewall software is overly complex, text-heavy, and lacks
 | **1. Transaction Risk Analyzer** | Scans transaction requests (UPI, Account, Cards) for risk flags. | Checks against a rogue database, identifies high-velocity transfers, and highlights unverified UPI handles. |
 | **2. Phishing Link Detector** | Scans URLs for malicious content, phishing, and malware flags. | Uses regex heuristics and live APIs (Google Safe Browsing & VirusTotal) with real-time CORS proxying. |
 | **3. Scam Message Analyzer** | Checks SMS/WhatsApp messages for urgent/fraudulent text patterns. | Employs keyword heuristics and **Google Gemini 1.5 Pro** LLM to summarize threats and recommend action. |
-| **4. Voice Safety Assistant** | Interactive simulator training users to handle phone call scams. | Text-to-speech feedback, scenario selectors (Lottery, Bank KYC, Threat), and dynamic user prompts. |
-| **5. Behavioral Pattern Analyzer** | Tracks device and interface behavioral signals to detect active fraud. | Monitors remote desktop software flags, atypical click speed, and late-night hour warnings. |
-| **6. Fraud Education Center** | Interactive, gamified cybersecurity learning platform. | Real-time quizzes, cybersecurity flip-cards, scam scenario lessons, and score badges. |
-| **7. Emergency Reporting** | Instant incident reporting and security counter-measures. | Freezes transactions, locks digital cards, generates cyber-safety PDFs, and triggers simulated family alerts. |
+| **4. Behavioral Pattern Analyzer** | Tracks device and interface behavioral signals to detect active fraud. | Monitors remote desktop software flags, atypical click speed, and late-night hour warnings. |
+| **5. Fraud Education Center** | Interactive, gamified cybersecurity learning platform. | Real-time quizzes, cybersecurity flip-cards, scam scenario lessons, and score badges. |
+| **6. Emergency Reporting** | Instant incident reporting and security counter-measures. | Freezes transactions, locks digital cards, generates cyber-safety PDFs, and triggers simulated family alerts. |
 
 ---
 
