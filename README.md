@@ -103,7 +103,7 @@ Developed with 💙 for the digital safety community by **Team Tech Kings**:
 * **Abhilash (4SN24CS002)** — Project Lead & Primary Developer
 * **Hansraj (4SN24AD016)** — Frontend Developer
 * **Abhinav Varayil (4SN24CS003)** — Backend Security
-* **Gokul Ram S (4SN24CS033)** — Developer
+* **Gokul Ram S (4SN24CS033)** — Analyst
 ---
 
 ## 📜 License
